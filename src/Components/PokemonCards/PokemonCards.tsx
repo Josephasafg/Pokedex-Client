@@ -25,9 +25,11 @@ export const PokemonCards: React.FC = () => {
         <div className={classes.cardsContainer}>
             {pokemons.map((pokemon: Pokemon, index: number) => {
                 //Don't treat mega for now
-                if (!pokemon.name.includes("Mega") && !pokemon.name.includes(" ")) {
-                    return <PokemonCard key={index} pokemon={pokemon}/>
+                if (pokemon.name.includes("Mega") && pokemon.name.includes(" ")) {
+                    return;
                 }
+
+                return <PokemonCard key={index} pokemon={pokemon}/>
             })}
 
         </div>

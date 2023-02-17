@@ -15,6 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Pokemon} from "../../Models/Pokemon";
 import {styled} from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {createIconURL} from "./CardUtils";
 
 
 interface PokemonProps {
@@ -64,7 +65,7 @@ export const PokemonCard: React.FC<PokemonProps> = (
         let newName = "";
 
         pokemonName.split(' ').map(word => {
-            if (word.includes("Mega")) {
+            if (word.endsWith("Mega")) {
                 newName = newName.concat("Mega");
             } else {
                 newName = newName.concat(" ", word);
@@ -86,7 +87,7 @@ export const PokemonCard: React.FC<PokemonProps> = (
                         <Grid container spacing={4} rowSpacing={1}>
                             <Grid item xs={7}>
                                 <Typography variant="h5">
-                                    {parseName(pokemon.name)}
+                                    {pokemon.name}
                                 </Typography>
 
                             </Grid>
@@ -94,12 +95,12 @@ export const PokemonCard: React.FC<PokemonProps> = (
                             <Grid xs={5}>
                                 <CardMedia
                                     component="img"
-                                    image={pokemon.icon_url}
+                                    image={createIconURL(pokemon.icon_url, pokemon.name).toLowerCase()}
                                     sx={{objectFit: "contain", width: "60%"}}
                                 />
                             </Grid>
 
-                            <Grid item xs={6}>
+                            <Grid item xs={8}>
                                 <Typography sx={{mb: 1.5}} color="text.secondary">
                                     {getTypes(pokemon)}
                                 </Typography>
