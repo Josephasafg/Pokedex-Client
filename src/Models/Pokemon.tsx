@@ -12,5 +12,5 @@ export interface Pokemon {
     speed: number
     generation: number
     legendary: boolean
-
+    icon_url: string
 }

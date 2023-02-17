@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardActions, CardContent, Collapse, IconButton, IconButtonProps, Typography} from '@mui/material';
+import {Card, CardActions, CardContent, CardMedia, Collapse, IconButton, IconButtonProps, Typography} from '@mui/material';
 import classes from "./PokemonCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Pokemon} from "../../Models/Pokemon";
@@ -65,9 +65,20 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         #{pokemon.number}
                     </Typography>
-                    <Typography variant="h5" component="div">
-                        {parseName(pokemon.name)}
-                    </Typography>
+                    <div className={classes.cardHeader}>
+                        <Typography variant="h5" component="div">
+                            {parseName(pokemon.name)}
+                        </Typography>
+
+                        <CardMedia
+                            component="img"
+                            image={pokemon.icon_url}
+                            alt="Paella dish"
+                            sx={{ padding: "1em 1em 0 1em", objectFit: "contain", width: "40%"}}
+
+                        />
+                    </div>
+
                     <Typography sx={{mb: 1.5}} color="text.secondary">
                         {getTypes(pokemon)}
                     </Typography>

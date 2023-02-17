@@ -12,8 +12,7 @@ export const PokemonCards: React.FC = () => {
              PokedexAPI.getAll().then((newPokemon) => {
                  setPokemons(newPokemon);
              })
-
-    }, [pokemons])
+    }, [])
 
 
     return (
