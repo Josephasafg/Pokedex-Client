@@ -83,31 +83,21 @@ export const PokemonCard: React.FC<PokemonProps> = (
                         #{pokemon.number}
                     </Typography>
 
-                    <Box sx={{flexGrow: 1}}>
-                        <Grid container spacing={4} rowSpacing={1}>
-                            <Grid item xs={7}>
-                                <Typography variant="h5">
-                                    {pokemon.name}
-                                </Typography>
+                    <Typography variant="h5">
+                        {pokemon.name}
+                    </Typography>
 
-                            </Grid>
+                    <div className={classes.cardImage}>
+                        <CardMedia
+                            component="img"
+                            image={createIconURL(pokemon.icon_url, pokemon.name).toLowerCase()}
+                            sx={{objectFit: "contain", width: "45%"}}
+                        />
+                    </div>
 
-                            <Grid xs={5}>
-                                <CardMedia
-                                    component="img"
-                                    image={createIconURL(pokemon.icon_url, pokemon.name).toLowerCase()}
-                                    sx={{objectFit: "contain", width: "60%"}}
-                                />
-                            </Grid>
-
-                            <Grid item xs={8}>
-                                <Typography sx={{mb: 1.5}} color="text.secondary">
-                                    {getTypes(pokemon)}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Box>
-
+                    <Typography sx={{mb: 1.5}} color="text.secondary">
+                        {getTypes(pokemon)}
+                    </Typography>
 
                     <Typography variant="body2">
                         Generation {pokemon.generation}

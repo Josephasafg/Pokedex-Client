@@ -14,40 +14,13 @@
 }
 
 .cardHeader {
-  //display: flex;
-  //flex-wrap: wrap;
-  //flex-direction: row;
-  //max-width: 800px;
   column-count: 2;
   column-gap: 20px;
   width: 160px;
 }
 
-.cardHeaderItem {
-  width: 100%;
-  display: inline-block;
-
-  //flex: 1;
-  //-webkit-box-flex: 1;
-  //display: block;
-  //max-height: 50px;
-  ////width: 500px;
-  //margin: 0px;
-  //margin-right: 20px;
-  //margin-bottom: 10px;
-  //border: red 2px solid;
-}
-
-.cardHeaderItem2 {
-  width: 100%; /* width as related to the column, not the whole container */
-  border: 1px solid black;
-  padding: 5px;
-  //flex: 1;
-  //-webkit-box-flex: 1;
-  //display: block;
-  ////width: 500px;
-  //margin: 0px;
-  //margin-right: 20px;
-  //margin-bottom: 10px;
-  //border: red 2px solid;
+.cardImage {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
 }

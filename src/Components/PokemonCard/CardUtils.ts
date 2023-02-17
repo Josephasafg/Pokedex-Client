@@ -31,9 +31,5 @@ export const createIconURL = (baseURL: string, name: string) => {
         return `${baseURL}/${newName.join('-')}.png`
     }
 
-    if (name.includes(SPACE)) {
-        return `${baseURL}/${name.replace(SPACE, '-')}.png`
-    }
-
-    return `${baseURL}/${name.replace("'", '').split(/(?=[A-Z])/).join("-")}.png`
+    return `${baseURL}/${name.replace("'", '').replace("-", "").replace(".", "").replace(" ", "").split(/(?=[A-Z])/).join("-")}.png`
 }

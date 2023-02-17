@@ -20,6 +20,7 @@ export const PokemonCards: React.FC = () => {
              })
     }, [])
 
+    let redundantPokemon = new Map();
 
     return (
         <div className={classes.cardsContainer}>
@@ -29,7 +30,11 @@ export const PokemonCards: React.FC = () => {
                     return;
                 }
 
-                return <PokemonCard key={index} pokemon={pokemon}/>
+                if (!redundantPokemon.get(pokemon.number)) {
+                    redundantPokemon.set(pokemon.number, true);
+                    return <PokemonCard key={index} pokemon={pokemon}/>
+                }
+
             })}
 
         </div>
