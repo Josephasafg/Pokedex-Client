@@ -5,7 +5,7 @@ import classes from "./PokemonCard.module.scss";
 export const PokemonCard: React.FC = () => {
     return (
         <div className={classes.card}>
-            <Card sx={{ minWidth: 275 }}>
+            <Card>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Word of the Day

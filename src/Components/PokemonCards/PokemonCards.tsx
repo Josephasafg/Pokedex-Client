@@ -8,6 +8,17 @@ export const PokemonCards: React.FC = () => {
         <div className={classes.cardsContainer}>
             <PokemonCard/>
             <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
+            <PokemonCard/>
         </div>
     )
 }
