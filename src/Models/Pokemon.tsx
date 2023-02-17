@@ -13,4 +13,5 @@ export interface Pokemon {
     generation: number
     legendary: boolean
     icon_url: string
+    mega_forms: string[]
 }

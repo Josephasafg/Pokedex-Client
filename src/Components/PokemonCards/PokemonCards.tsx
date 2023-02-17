@@ -8,6 +8,12 @@ import {Pokemon} from "../../Models/Pokemon";
 export const PokemonCards: React.FC = () => {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
+    // TODO: Implement Logic to treat Mega Pokemon
+    const parseMegaPokemon = (newPokemon: Pokemon[]) => {
+
+    }
+
+
     useEffect(() => {
              PokedexAPI.getAll().then((newPokemon) => {
                  setPokemons(newPokemon);
@@ -18,7 +24,10 @@ export const PokemonCards: React.FC = () => {
     return (
         <div className={classes.cardsContainer}>
             {pokemons.map((pokemon: Pokemon, index: number) => {
-                return <PokemonCard key={index} pokemon={pokemon}/>
+                //Don't treat mega for now
+                if (!pokemon.name.includes("Mega") && !pokemon.name.includes(" ")) {
+                    return <PokemonCard key={index} pokemon={pokemon}/>
+                }
             })}
 
         </div>

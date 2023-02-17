@@ -1,12 +1,20 @@
 import React from "react";
-import {Card, CardActions, CardContent, CardMedia, Collapse, IconButton, IconButtonProps, Typography} from '@mui/material';
+import {
+    Box,
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Collapse, Grid,
+    IconButton,
+    IconButtonProps, Paper,
+    Typography,
+} from '@mui/material';
 import classes from "./PokemonCard.module.scss";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Pokemon} from "../../Models/Pokemon";
 import {styled} from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-
 
 
 interface PokemonProps {
@@ -17,6 +25,14 @@ interface PokemonProps {
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
+
+const Item = styled(Paper)(({theme}) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const {expand, ...other} = props;
@@ -65,23 +81,33 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         #{pokemon.number}
                     </Typography>
-                    <div className={classes.cardHeader}>
-                        <Typography variant="h5" component="div">
-                            {parseName(pokemon.name)}
-                        </Typography>
 
-                        <CardMedia
-                            component="img"
-                            image={pokemon.icon_url}
-                            alt="Paella dish"
-                            sx={{ padding: "1em 1em 0 1em", objectFit: "contain", width: "40%"}}
+                    <Box sx={{flexGrow: 1}}>
+                        <Grid container spacing={4} rowSpacing={1}>
+                            <Grid item xs={7}>
+                                <Typography variant="h5">
+                                    {parseName(pokemon.name)}
+                                </Typography>
 
-                        />
-                    </div>
+                            </Grid>
 
-                    <Typography sx={{mb: 1.5}} color="text.secondary">
-                        {getTypes(pokemon)}
-                    </Typography>
+                            <Grid xs={5}>
+                                <CardMedia
+                                    component="img"
+                                    image={pokemon.icon_url}
+                                    sx={{objectFit: "contain", width: "60%"}}
+                                />
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <Typography sx={{mb: 1.5}} color="text.secondary">
+                                    {getTypes(pokemon)}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Box>
+
+
                     <Typography variant="body2">
                         Generation {pokemon.generation}
                     </Typography>
@@ -102,10 +128,12 @@ export const PokemonCard: React.FC<PokemonProps> = (
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography className={classes.stats}>
-                            HP: {pokemon.hit_points} Attack: {pokemon.attack} Defense: {pokemon.defense} Sp. Attack: {pokemon.special_attack} Sp. Defense: {pokemon.special_defense} Speed: {pokemon.speed} Total: {pokemon.total}
+                            HP: {pokemon.hit_points} Attack: {pokemon.attack} Defense: {pokemon.defense} Sp.
+                            Attack: {pokemon.special_attack} Sp.
+                            Defense: {pokemon.special_defense} Speed: {pokemon.speed} Total: {pokemon.total}
                         </Typography>
                         <Typography className={classes.stats}>
-                            Legendary: {pokemon.legendary ? "Yes": "No"}
+                            Legendary: {pokemon.legendary ? "Yes" : "No"}
                         </Typography>
                     </CardContent>
                 </Collapse>
