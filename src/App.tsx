@@ -6,16 +6,20 @@ import {Pokemon} from "./Models/Pokemon";
 import {PokedexAPI} from "./PokedexAPI/PokedexAPI";
 import {FooterPageControl} from "./Components/FooterPageControl/FooterPageControl";
 import {HeaderPageControl} from "./Components/HeaderPageControl/HeaderPageControl";
-import {SelectChangeEvent} from "@mui/material";
+import {SelectChangeEvent, ThemeProvider} from "@mui/material";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {updatePage} from "./store/actionCreators";
 import {PageState} from "./types";
 import {PageInfo} from "./Models/PageInfo";
 import {FilterBy, OrderBy} from "./Models/Query";
+import CssBaseline from '@mui/material/CssBaseline';
+import {DarkTheme, LightTheme} from './ThemeConfig';
+import {Theme} from './Models/Theme';
 
 
 function App() {
     const dispatch = useDispatch();
+
     const pokemons = useSelector(
         (state: PageState) => state.pokemons,
         shallowEqual,
@@ -34,6 +38,7 @@ function App() {
         (state: PageState) => state.filterBy,
         shallowEqual,
     )
+    const theme = useSelector((state: PageState) => state.theme, shallowEqual,)
 
     // TODO: Implement Logic to treat Mega Pokemon
     const parseMegaPokemon = (newPokemon: Pokemon[]) => {
@@ -74,9 +79,10 @@ function App() {
         updatePokemons(pageInfo, orderBy, event.target.value as FilterBy);
     };
 
-
+    console.log("THEME", theme)
     return (
-        <div className="App">
+        <ThemeProvider theme={theme === Theme.LIGHT ? LightTheme : DarkTheme}>
+            <CssBaseline/>
             <Title/>
             <HeaderPageControl showSize={pageInfo.size}
                                onChange={handlePageSizeChange}
@@ -84,7 +90,8 @@ function App() {
                                onFilterChange={handleFilterChange}/>
             <PokemonCards pokemons={pokemons}/>
             <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>
-        </div>
+        </ThemeProvider>
+
     );
 }
 

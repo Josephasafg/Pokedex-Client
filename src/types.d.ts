@@ -1,6 +1,7 @@
 import {Pokemon} from "./Models/Pokemon";
 import {PageInfo} from "./Models/PageInfo";
 import {FilterBy, OrderBy} from "./Models/Query";
+import {Theme} from "./Models/Theme";
 
 
 export interface IPage {
@@ -15,6 +16,7 @@ type PageState = {
     pageInfo: PageInfo
     orderBy: OrderBy
     filterBy: FilterBy
+    theme: Theme
 }
 
 type PageAction = {
@@ -25,6 +27,11 @@ type PageAction = {
     filterBy: FilterBy
 }
 
-export type PokedexActions = PageAction
+type ThemeAction = {
+    type: string
+    theme: Theme
+}
+
+export type PokedexActions = PageAction | ThemeAction
 
 type DispatchType = (args: PokedexActions) => PokedexActions

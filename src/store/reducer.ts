@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
-import {PageAction, PageState, PokedexActions} from "../types";
+import {PageAction, PageState, PokedexActions, ThemeAction} from "../types";
 import {FilterBy, OrderBy} from "../Models/Query";
+import {Theme} from "../Models/Theme";
 
 const initialState: PageState = {
     pokemons: [],
@@ -11,6 +12,7 @@ const initialState: PageState = {
     },
     orderBy: OrderBy.ASC,
     filterBy: FilterBy.ALL,
+    theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.DARK : Theme.LIGHT,
 }
 
 const updatePage = (state: PageState, action: PageAction): PageState => {
@@ -19,7 +21,14 @@ const updatePage = (state: PageState, action: PageAction): PageState => {
         pokemons: action.pokemons,
         pageInfo: action.pageInfo,
         orderBy: action.orderBy,
-        filterBy: action.filterBy
+        filterBy: action.filterBy,
+    }
+}
+
+const toggleTheme = (state: PageState, action: ThemeAction): PageState => {
+    return {
+        ...state,
+        theme: action.theme,
     }
 }
 
@@ -30,6 +39,9 @@ const projectReducer = (
     switch (action.type) {
         case actionTypes.UPDATE_PAGE:
             return updatePage(state, action as PageAction);
+
+        case actionTypes.TOGGLE_THEME:
+            return toggleTheme(state, action as ThemeAction);
     }
     return state;
 }

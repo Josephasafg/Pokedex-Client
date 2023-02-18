@@ -4,11 +4,13 @@ import classes from "./HeaderPageControl.module.scss";
 import React from "react";
 import {PageSize} from "../PageSize/PageSize";
 import {FilterControl} from "../FilterControl/FilterControl";
-import {shallowEqual, useSelector} from "react-redux";
+import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {PageState} from "../../types";
 import {FilterBy, OrderBy} from "../../Models/Query";
+import {Toggle} from "../Toggle/Toggle";
+import {Theme} from "../../Models/Theme";
+import {toggleTheme} from "../../store/actionCreators";
 
-const PAGE_SIZE_OPTIONS = [5, 10, 20];
 
 interface HeaderPageControlProps {
     showSize: number
@@ -25,6 +27,8 @@ export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
         onSortChange,
         onFilterChange
     }) => {
+    const dispatch = useDispatch();
+    const theme = useSelector((state: PageState) => state.theme, shallowEqual,)
 
     const orderBy = useSelector(
         (state: PageState) => state.orderBy,
@@ -36,8 +40,14 @@ export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
         shallowEqual,
     )
 
+    const handleOnThemeToggle = React.useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(toggleTheme(event.target.checked ? Theme.DARK : Theme.LIGHT));
+    }, [dispatch])
+
+
     return (
         <div className={classes.headerContainer}>
+            <Toggle label={"Theme"} onChange={handleOnThemeToggle} isChecked={theme === Theme.DARK}/>
             <FilterControl value={orderBy} onChange={onSortChange} label={"Sort"}
                            options={[OrderBy.ASC, OrderBy.DESC]}/>
 
