@@ -6,7 +6,8 @@ export const updatePage = (page: IPage) => {
         type: actionTypes.UPDATE_PAGE,
         pokemons: page.pokemons,
         pageInfo: page.pageInfo,
-        orderBy: page.orderBy
+        orderBy: page.orderBy,
+        filterBy: page.filterBy,
     }
 
     return action;

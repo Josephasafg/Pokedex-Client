@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import {PageAction, PageState, PokedexActions} from "../types";
-import {OrderBy} from "../Models/Query";
+import {FilterBy, OrderBy} from "../Models/Query";
 
 const initialState: PageState = {
     pokemons: [],
@@ -10,6 +10,7 @@ const initialState: PageState = {
         total: 0
     },
     orderBy: OrderBy.ASC,
+    filterBy: FilterBy.ALL,
 }
 
 const updatePage = (state: PageState, action: PageAction): PageState => {
@@ -18,6 +19,7 @@ const updatePage = (state: PageState, action: PageAction): PageState => {
         pokemons: action.pokemons,
         pageInfo: action.pageInfo,
         orderBy: action.orderBy,
+        filterBy: action.filterBy
     }
 }
 

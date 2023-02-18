@@ -1,11 +1,11 @@
 import {API} from "../api";
 import {PokemonResponse} from "../Models/PokemonResponse";
-import {OrderBy} from "../Models/Query";
+import {FilterBy, OrderBy} from "../Models/Query";
 
 export class PokedexAPI {
     private static GET_ALL_URL = '/get-all'
-    public static getAll = async (page: number, size: number, orderBy: OrderBy): Promise<PokemonResponse> => {
-        const params = {size: size, page: page, order_by: orderBy};
+    public static getAll = async (page: number, size: number, orderBy: OrderBy, filterBy?: FilterBy): Promise<PokemonResponse> => {
+        const params = {size: size, page: page, order_by: orderBy, type: filterBy};
 
         const response = await API.get(PokedexAPI.GET_ALL_URL, {params: params});
 
