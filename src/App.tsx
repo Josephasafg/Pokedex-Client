@@ -7,6 +7,7 @@ import {PageInfo} from "./Models/PageInfo";
 import {PokedexAPI} from "./PokedexAPI/PokedexAPI";
 import {FooterPageControl} from "./Components/FooterPageControl/FooterPageControl";
 import {HeaderPageControl} from "./Components/HeaderPageControl/HeaderPageControl";
+import {SelectChangeEvent} from "@mui/material";
 
 
 function App() {
@@ -31,10 +32,14 @@ function App() {
         setPageInfo({...pageInfo, page: value});
     }
 
+    const handlePageSizeChange = (event: SelectChangeEvent) => {
+        setPageInfo({...pageInfo, size: +event.target.value});
+    };
+
     return (
         <div className="App">
             <Title/>
-            <HeaderPageControl showSize={pageInfo.size}/>
+            <HeaderPageControl showSize={pageInfo.size} onChange={handlePageSizeChange}/>
             <PokemonCards pokemons={pokemons}/>
             <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>
         </div>
