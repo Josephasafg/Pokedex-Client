@@ -11,6 +11,7 @@ import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {updatePage} from "./store/actionCreators";
 import {PageState} from "./types";
 import {PageInfo} from "./Models/PageInfo";
+import {OrderBy} from "./Models/Query";
 
 
 function App() {
@@ -23,43 +24,48 @@ function App() {
         (state: PageState) => state.pageInfo,
         shallowEqual,
     )
-    // const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-    // const [pageInfo, setPageInfo] = useState<PageInfo>({page: 1, total: 0, size: 10})
+
+    const orderBy = useSelector(
+        (state: PageState) => state.orderBy,
+        shallowEqual,
+    )
 
     // TODO: Implement Logic to treat Mega Pokemon
     const parseMegaPokemon = (newPokemon: Pokemon[]) => {
 
     }
 
-    const updatePokemons = React.useCallback((pageInfo: PageInfo) => {
-        PokedexAPI.getAll(pageInfo.page, pageInfo.size).then((response) => {
-            // setPokemons(response.items);
-            // setPageInfo({page: response.page, size: response.size, total: response.total});
-            console.log("Updating")
+    const updatePokemons = React.useCallback((pageInfo: PageInfo, orderBy: OrderBy) => {
+        PokedexAPI.getAll(pageInfo.page, pageInfo.size, orderBy).then((response) => {
             dispatch(updatePage({
                 pokemons: response.items,
-                pageInfo: {page: response.page, size: response.size, total: response.total}
+                pageInfo: {page: response.page, size: response.size, total: response.total},
+                orderBy: orderBy
             }));
         })
     }, [dispatch])
 
     useEffect(() => {
-        updatePokemons(pageInfo);
+        updatePokemons(pageInfo, orderBy);
     }, [])
 
 
     const handlePageChange = (event: ChangeEvent<unknown>, value: number): void => {
-        updatePokemons({...pageInfo, page: value});
+        updatePokemons({...pageInfo, page: value}, orderBy);
     }
 
     const handlePageSizeChange = (event: SelectChangeEvent) => {
-        updatePokemons({...pageInfo, size: +event.target.value});
+        updatePokemons({...pageInfo, size: +event.target.value}, orderBy);
+    };
+
+    const handleSortChange = (event: SelectChangeEvent) => {
+        updatePokemons(pageInfo, event.target.value as OrderBy);
     };
 
     return (
         <div className="App">
             <Title/>
-            <HeaderPageControl showSize={pageInfo.size} onChange={handlePageSizeChange}/>
+            <HeaderPageControl showSize={pageInfo.size} onChange={handlePageSizeChange} onSortChange={handleSortChange}/>
             <PokemonCards pokemons={pokemons}/>
             <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>
         </div>

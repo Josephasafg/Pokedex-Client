@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Store} from "redux"
 import projectReducer from "./store/reducer"
-import {DispatchType, PageAction, PageState} from "./types";
+import {DispatchType, PageAction, PageState, PokedexActions} from "./types";
 import {Provider} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
 import {persistReducer, persistStore} from 'redux-persist'
@@ -23,7 +23,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, projectReducer);
 
 
-const store: Store<PageState, PageAction> & {
+const store: Store<PageState, PokedexActions> & {
     dispatch: DispatchType
 } = configureStore({
     reducer: persistedReducer, middleware: [thunk], devTools: process.env.NODE_ENV !== 'production',

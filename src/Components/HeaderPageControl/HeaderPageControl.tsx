@@ -1,14 +1,19 @@
-import {FormControl, InputLabel, MenuItem, SelectChangeEvent, Typography} from "@mui/material";
-import Select from '@mui/material/Select';
+import {SelectChangeEvent} from "@mui/material";
 import classes from "./HeaderPageControl.module.scss";
 
 import React from "react";
+import {PageSize} from "../PageSize/PageSize";
+import {FilterControl} from "../FilterControl/FilterControl";
+import {shallowEqual, useSelector} from "react-redux";
+import {PageState} from "../../types";
+import {OrderBy} from "../../Models/Query";
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
 
 interface HeaderPageControlProps {
     showSize: number
     onChange: (event: SelectChangeEvent) => void
+    onSortChange: (event: SelectChangeEvent) => void
 }
 
 
@@ -16,25 +21,19 @@ export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
     {
         showSize,
         onChange,
+        onSortChange,
     }) => {
+
+    const orderBy = useSelector(
+        (state: PageState) => state.orderBy,
+        shallowEqual,
+    )
+
     return (
-        <div className={classes.container}>
-            <Typography>Show</Typography>
-            <FormControl fullWidth={false}>
-                <InputLabel id="demo-simple-select-label">Size</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={showSize.toString()}
-                    label={showSize}
-                    onChange={onChange}
-                >
-                    {PAGE_SIZE_OPTIONS.map((size: number, index: number) => {
-                        return <MenuItem key={index} value={size}>{size}</MenuItem>
-                    })}
-                </Select>
-            </FormControl>
-            <Typography>Per Page</Typography>
+        <div className={classes.headerContainer}>
+            <FilterControl value={orderBy} onChange={onSortChange} label={"Sort"}
+                           options={[OrderBy.ASC, OrderBy.DESC]}/>
+            <PageSize showSize={showSize} onChange={onChange} title={"Size"}/>
         </div>
     )
 }
