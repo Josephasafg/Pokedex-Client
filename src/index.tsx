@@ -8,12 +8,12 @@ import thunk from "redux-thunk"
 import reducer from "./store/reducer"
 import {DispatchType, PageAction, PageState} from "./types";
 import {Provider} from "react-redux";
+import {configureStore} from "@reduxjs/toolkit";
 
 
-//TODO: Change to new function
 const store: Store<PageState, PageAction> & {
     dispatch: DispatchType
-} = createStore(reducer, applyMiddleware(thunk))
+} = configureStore({reducer})
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

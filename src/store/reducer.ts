@@ -17,7 +17,6 @@ const reducer = (
 ): PageState => {
     switch (action.type) {
         case actionTypes.UPDATE_PAGE:
-
             return {
                 ...state,
                 pokemons: action.pokemons,

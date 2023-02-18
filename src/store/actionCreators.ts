@@ -8,4 +8,5 @@ export const updatePage = (page: IPage) => {
         pageInfo: page.pageInfo,
     }
 
+    return action;
 }
