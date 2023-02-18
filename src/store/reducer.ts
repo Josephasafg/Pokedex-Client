@@ -11,7 +11,7 @@ const initialState: PageState = {
 }
 
 
-const reducer = (
+const projectReducer = (
     state: PageState = initialState,
     action: PageAction
 ): PageState => {
@@ -26,4 +26,4 @@ const reducer = (
     return state;
 }
 
-export default reducer;
+export default projectReducer;

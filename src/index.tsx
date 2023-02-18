@@ -3,24 +3,41 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {applyMiddleware, createStore, Store} from "redux"
-import thunk from "redux-thunk"
-import reducer from "./store/reducer"
+import {Store} from "redux"
+import projectReducer from "./store/reducer"
 import {DispatchType, PageAction, PageState} from "./types";
 import {Provider} from "react-redux";
 import {configureStore} from "@reduxjs/toolkit";
+import {persistReducer, persistStore} from 'redux-persist'
+import storage from "redux-persist/lib/storage";
+import {PersistGate} from 'redux-persist/integration/react'
+import thunk from 'redux-thunk';
+
+
+const persistConfig = {
+    key: 'root',
+    storage,
+}
+
+
+const persistedReducer = persistReducer(persistConfig, projectReducer);
 
 
 const store: Store<PageState, PageAction> & {
     dispatch: DispatchType
-} = configureStore({reducer})
+} = configureStore({
+    reducer: persistedReducer, middleware: [thunk], devTools: process.env.NODE_ENV !== 'production',
+})
+let persistor = persistStore(store)
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
     <Provider store={store}>
-        <App/>
+        <PersistGate persistor={persistor}>
+            <App/>
+        </PersistGate>
     </Provider>
 );
 
