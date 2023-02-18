@@ -3,14 +3,25 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {applyMiddleware, createStore, Store} from "redux"
+import thunk from "redux-thunk"
+import reducer from "./store/reducer"
+import {DispatchType, PageAction, PageState} from "./types";
+import {Provider} from "react-redux";
+
+
+//TODO: Change to new function
+const store: Store<PageState, PageAction> & {
+    dispatch: DispatchType
+} = createStore(reducer, applyMiddleware(thunk))
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <Provider store={store}>
+        <App/>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
