@@ -5,16 +5,24 @@ const FORME = "Forme";
 
 
 export const createIconURL = (baseURL: string, name: string) => {
+    let newName = name;
+
     if (name.includes(FEMALE_CHAR)) {
-        return `${baseURL}/${name.replace(FEMALE_CHAR, '')}-f.png`
+        newName = `${newName.replace(FEMALE_CHAR, "")} f`;
     }
 
-    if (name.includes(MALE_CHAR)) {
-        return `${baseURL}/${name.replace(MALE_CHAR, '')}-m.png`
+    if (newName.includes(MALE_CHAR)) {
+        newName = `${newName.replace(MALE_CHAR, "")} m`;
     }
 
-    if (name.includes(FORME)) {
-        let newName = name.replace("Forme", "").replace(" ", "");
+    if (newName.includes(".")) {
+        newName = newName.replace(".", "");
+    }
+
+    const currentName = parseMegaPokemon(newName);
+
+    if (currentName.includes(FORME)) {
+        let newName = currentName.replace("Forme", "").replace(" ", "");
 
         if (newName.includes("%")) {
             let splitName = newName.replace("%", "").match(/[a-zA-Z]+/g);
@@ -25,11 +33,34 @@ export const createIconURL = (baseURL: string, name: string) => {
         return `${baseURL}/${newName.split(/(?=[A-Z])/).join("-")}.png`;
     }
 
-    if (name.includes("Size")) {
-        let newName = name.replace("Size", "").replace(" ", "").split(/(?=[A-Z])/);
+    if (currentName.includes("Size")) {
+        let newName = currentName.replace("Size", "").replace(" ", "").split(/(?=[A-Z])/);
 
         return `${baseURL}/${newName.join('-')}.png`
     }
 
-    return `${baseURL}/${name.replace("'", '').replace("-", "").replace(".", "").replace(" ", "").split(/(?=[A-Z])/).join("-")}.png`
+    return `${baseURL}/${currentName.replace("'", '').replace("-", "").replace(/ /g, "").split(/(?=[A-Z])/).join("-")}.png`
+}
+
+export const parseMegaPokemon = (pokemonName: string): string => {
+    if (pokemonName.includes(" ") && pokemonName.includes("Mega")) {
+        const names = pokemonName.split(" ");
+
+        const newName = names[0].split(/(?=[A-Z])/);
+
+        if (names.length > 2) {
+            return newName.join(" ") + ` ${names[names.length - 1]}`;
+        }
+
+        return newName.join(' ');
+    }
+
+    return pokemonName;
+}
+
+export const parseName = (pokemonName: string): string => {
+    const parsedMegaName = parseMegaPokemon(pokemonName);
+
+
+    return parsedMegaName;
 }

@@ -15,7 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Pokemon} from "../../Models/Pokemon";
 import {styled} from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {createIconURL} from "./CardUtils";
+import {createIconURL, parseMegaPokemon, parseName} from "./CardUtils";
 
 
 interface PokemonProps {
@@ -61,20 +61,6 @@ export const PokemonCard: React.FC<PokemonProps> = (
         return pokemon.type_two ? `${pokemon.type_one} | ${pokemon.type_two}` : pokemon.type_one;
     }
 
-    const parseName = (pokemonName: string): string => {
-        let newName = "";
-
-        pokemonName.split(' ').map(word => {
-            if (word.endsWith("Mega")) {
-                newName = newName.concat("Mega");
-            } else {
-                newName = newName.concat(" ", word);
-            }
-        })
-
-        return newName;
-    }
-
     return (
         <div className={classes.card}>
             <Card>
@@ -84,7 +70,7 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     </Typography>
 
                     <Typography variant="h5">
-                        {pokemon.name}
+                        {parseName(pokemon.name)}
                     </Typography>
 
                     <div className={classes.cardImage}>

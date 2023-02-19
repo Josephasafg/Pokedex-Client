@@ -13,20 +13,10 @@ export const PokemonCards: React.FC<PokemonCardsProp> = (
     }) => {
 
 
-    let redundantPokemon = new Map();
-
     return (
         <div className={classes.cardsContainer}>
             {pokemons.map((pokemon: Pokemon, index: number) => {
-                //Don't treat mega for now
-                if (pokemon.name.includes("Mega") && pokemon.name.includes(" ")) {
-                    return;
-                }
-
-                if (!redundantPokemon.get(pokemon.number)) {
-                    redundantPokemon.set(pokemon.number, true);
-                    return <PokemonCard key={index} pokemon={pokemon}/>
-                }
+                return <PokemonCard key={index} pokemon={pokemon}/>
 
             })}
 

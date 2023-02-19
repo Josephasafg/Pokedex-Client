@@ -40,11 +40,6 @@ function App() {
     )
     const theme = useSelector((state: PageState) => state.theme, shallowEqual,)
 
-    // TODO: Implement Logic to treat Mega Pokemon
-    const parseMegaPokemon = (newPokemon: Pokemon[]) => {
-
-    }
-
     const updatePokemons = React.useCallback((pageInfo: PageInfo, orderBy: OrderBy, filterBy: FilterBy) => {
         const filterType = filterBy === FilterBy.ALL ? undefined : filterBy;
 
@@ -79,7 +74,6 @@ function App() {
         updatePokemons(pageInfo, orderBy, event.target.value as FilterBy);
     };
 
-    console.log("THEME", theme)
     return (
         <ThemeProvider theme={theme === Theme.LIGHT ? LightTheme : DarkTheme}>
             <CssBaseline/>

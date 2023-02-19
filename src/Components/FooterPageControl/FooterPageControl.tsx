@@ -14,7 +14,7 @@ export const FooterPageControl: React.FC<PageControlProps> = (
     }) => {
     return (
         <div style={{margin: "20px"}}>
-            <Pagination count={pageInfo.total}
+            <Pagination count={Math.ceil(pageInfo.total / pageInfo.size)}
                         page={pageInfo.page}
                         onChange={onChange}
                         variant={"outlined"}
