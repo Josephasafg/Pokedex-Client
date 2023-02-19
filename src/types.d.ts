@@ -32,6 +32,12 @@ type ThemeAction = {
     theme: Theme
 }
 
-export type PokedexActions = PageAction | ThemeAction
+type UpdateIsCapturedAction = {
+    type: string
+    pokemonId: number
+    isCaptured: boolean
+}
+
+export type PokedexActions = PageAction | ThemeAction | UpdateIsCapturedAction
 
 type DispatchType = (args: PokedexActions) => PokedexActions

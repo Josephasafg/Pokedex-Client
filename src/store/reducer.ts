@@ -1,7 +1,8 @@
 import * as actionTypes from "./actionTypes";
-import {PageAction, PageState, PokedexActions, ThemeAction} from "../types";
+import {PageAction, PageState, PokedexActions, ThemeAction, UpdateIsCapturedAction} from "../types";
 import {FilterBy, OrderBy} from "../Models/Query";
 import {Theme} from "../Models/Theme";
+import produce from "immer";
 
 const initialState: PageState = {
     pokemons: [],
@@ -32,18 +33,34 @@ const toggleTheme = (state: PageState, action: ThemeAction): PageState => {
     }
 }
 
+function updateIsCaptured(state: PageState, action: UpdateIsCapturedAction) {
+    const {pokemonId, isCaptured} = {...action}
+    // @ts-ignore
+    const matchedIndex = Object.values(state.pokemons).findIndex(pokemon => pokemon.pokemon_id === pokemonId)
+
+    if (matchedIndex) {
+        // @ts-ignore
+        state.pokemons[matchedIndex].is_captured = isCaptured;
+    }
+}
+
 const projectReducer = (
     state: PageState = initialState,
     action: PokedexActions
-): PageState => {
+): PageState => produce(state, draft => {
     switch (action.type) {
         case actionTypes.UPDATE_PAGE:
-            return updatePage(state, action as PageAction);
+            return updatePage(draft, action as PageAction);
 
         case actionTypes.TOGGLE_THEME:
-            return toggleTheme(state, action as ThemeAction);
+            return toggleTheme(draft, action as ThemeAction);
+
+        case actionTypes.UPDATE_CAPTURED:
+            updateIsCaptured(draft, action as UpdateIsCapturedAction);
+            break;
     }
-    return state;
-}
+    return draft;
+})
+
 
 export default projectReducer;

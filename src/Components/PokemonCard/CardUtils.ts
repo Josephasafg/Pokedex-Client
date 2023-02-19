@@ -19,24 +19,19 @@ export const createIconURL = (baseURL: string, name: string) => {
         newName = newName.replace(".", "");
     }
 
-    const currentName = parseMegaPokemon(newName);
+    let currentName = parseMegaPokemon(newName);
 
     if (currentName.includes(FORME)) {
-        let newName = currentName.replace("Forme", "").replace(" ", "");
+        currentName = currentName.replace(FORME, "")
 
-        if (newName.includes("%")) {
-            let splitName = newName.replace("%", "").match(/[a-zA-Z]+/g);
+        if (currentName.includes("%")) {
             // @ts-ignore
-            newName = splitName.join("-");
+            currentName = currentName.replace("%", "");
         }
-
-        return `${baseURL}/${newName.split(/(?=[A-Z])/).join("-")}.png`;
     }
 
     if (currentName.includes("Size")) {
-        let newName = currentName.replace("Size", "").replace(" ", "").split(/(?=[A-Z])/);
-
-        return `${baseURL}/${newName.join('-')}.png`
+        currentName = currentName.replace("Size", "");
     }
 
     return `${baseURL}/${currentName.replace("'", '').replace("-", "").replace(/ /g, "").split(/(?=[A-Z])/).join("-")}.png`

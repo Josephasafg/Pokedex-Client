@@ -1,4 +1,5 @@
 export interface Pokemon {
+    pokemon_id: number
     number: number
     name: string
     type_one: string
@@ -13,5 +14,5 @@ export interface Pokemon {
     generation: number
     legendary: boolean
     icon_url: string
-    mega_forms: string[]
+    is_captured: boolean
 }

@@ -1,13 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-    Box,
     Card,
     CardActions,
     CardContent,
     CardMedia,
-    Collapse, Grid,
+    Collapse,
     IconButton,
-    IconButtonProps, Paper,
+    IconButtonProps,
+    Paper,
     Typography,
 } from '@mui/material';
 import classes from "./PokemonCard.module.scss";
@@ -15,11 +15,16 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Pokemon} from "../../Models/Pokemon";
 import {styled} from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {createIconURL, parseMegaPokemon, parseName} from "./CardUtils";
+import {createIconURL, parseName} from "./CardUtils";
+import {PokedexAPI} from "../../PokedexAPI/PokedexAPI";
+import {updateIsCaptured} from "../../store/actionCreators";
+import {shallowEqual, useDispatch, useSelector} from "react-redux";
+import {PageState} from "../../types";
 
 
 interface PokemonProps {
     pokemon: Pokemon
+    isCaptured: boolean
 }
 
 
@@ -46,12 +51,15 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-
 export const PokemonCard: React.FC<PokemonProps> = (
     {
         pokemon,
+        isCaptured
     }) => {
     const [expanded, setExpanded] = React.useState(false);
+    // const [captured, setCaptured] = useState(isCaptured);
+    const currentPokemon = useSelector((state: PageState) => state.pokemons.find(p => p.pokemon_id === pokemon.pokemon_id)) as Pokemon
+    const dispatch = useDispatch();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -60,6 +68,14 @@ export const PokemonCard: React.FC<PokemonProps> = (
     const getTypes = (pokemon: Pokemon): string => {
         return pokemon.type_two ? `${pokemon.type_one} | ${pokemon.type_two}` : pokemon.type_one;
     }
+
+    const onCapturedClick = React.useCallback(async () => {
+        const response = await PokedexAPI.postCapture(pokemon.pokemon_id, !currentPokemon.is_captured);
+
+        if (response.status === 200) {
+            dispatch(updateIsCaptured(pokemon.pokemon_id, !currentPokemon.is_captured))
+        }
+    }, [dispatch, currentPokemon.is_captured])
 
     return (
         <div className={classes.card}>
@@ -90,7 +106,9 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton aria-label="add to favorites"
+                                onClick={onCapturedClick}
+                                color={currentPokemon.is_captured ? "primary" : "default"}>
                         <FavoriteIcon/>
                     </IconButton>
                     <ExpandMore
