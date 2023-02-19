@@ -8,11 +8,11 @@ export const createIconURL = (baseURL: string, name: string) => {
     let newName = name;
 
     if (name.includes(FEMALE_CHAR)) {
-        newName = `${newName.replace(FEMALE_CHAR, "")} f`;
+        newName = `${newName.replace(FEMALE_CHAR, "")} F`;
     }
 
     if (newName.includes(MALE_CHAR)) {
-        newName = `${newName.replace(MALE_CHAR, "")} m`;
+        newName = `${newName.replace(MALE_CHAR, "")} M`;
     }
 
     if (newName.includes(".")) {
