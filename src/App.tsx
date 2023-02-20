@@ -22,12 +22,11 @@ const PokemonBackground = require("./Resources/pokemon_background.png");
 function App() {
     const dispatch = useDispatch();
 
-    const pokemons = useSelector((state: PageState) => state.pokemons, shallowEqual)
-    const pageInfo = useSelector((state: PageState) => state.pageInfo, shallowEqual)
-    const orderBy = useSelector((state: PageState) => state.orderBy, shallowEqual)
-    const filterBy = useSelector((state: PageState) => state.filterBy, shallowEqual)
-    const theme = useSelector((state: PageState) => state.theme, shallowEqual)
-
+    const pokemons = useSelector((state: PageState) => state.pokemons, shallowEqual);
+    const pageInfo = useSelector((state: PageState) => state.pageInfo, shallowEqual);
+    const orderBy = useSelector((state: PageState) => state.orderBy, shallowEqual);
+    const filterBy = useSelector((state: PageState) => state.filterBy, shallowEqual);
+    const theme = useSelector((state: PageState) => state.theme, shallowEqual);
     const [isLoading, setIsLoading] = useState(false);
 
     const updatePokemons = React.useCallback((pageInfo: PageInfo, orderBy: OrderBy, filterBy: FilterBy) => {
@@ -59,15 +58,15 @@ function App() {
     }
 
     const handlePageSizeChange = (event: SelectChangeEvent): void => {
-        updatePokemons({...pageInfo, size: +event.target.value}, orderBy, filterBy);
+        updatePokemons({...pageInfo, size: +event.target.value, page: 1}, orderBy, filterBy);
     };
 
     const handleSortChange = (event: SelectChangeEvent): void => {
-        updatePokemons(pageInfo, event.target.value as OrderBy, filterBy);
+        updatePokemons({...pageInfo, page: 1}, event.target.value as OrderBy, filterBy);
     };
 
     const handleFilterChange = (event: SelectChangeEvent): void => {
-        updatePokemons(pageInfo, orderBy, event.target.value as FilterBy);
+        updatePokemons({...pageInfo, page: 1}, orderBy, event.target.value as FilterBy);
     };
 
     const renderBody = (): JSX.Element => {
