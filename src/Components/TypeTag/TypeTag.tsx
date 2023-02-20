@@ -73,11 +73,11 @@ export const TypeTag: React.FC<TypeTagProps> = (
         pokeType,
     }) => {
     return (
-        <div className={classes.tagContainer}>
+        <span className={classes.tagContainer}>
             <Tag pokeType={pokeType}>
                 {pokeType}
             </Tag>
-        </div>
+        </span>
 
     )
 }

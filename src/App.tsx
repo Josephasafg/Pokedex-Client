@@ -1,11 +1,11 @@
-import React, {ChangeEvent, useEffect} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './App.module.scss';
 import {PokemonCards} from "./Components/PokemonCards/PokemonCards";
 import {Title} from "./Components/Title/Title";
 import {PokedexAPI} from "./PokedexAPI/PokedexAPI";
 import {FooterPageControl} from "./Components/FooterPageControl/FooterPageControl";
 import {HeaderPageControl} from "./Components/HeaderPageControl/HeaderPageControl";
-import {SelectChangeEvent, ThemeProvider} from "@mui/material";
+import {CircularProgress, SelectChangeEvent, ThemeProvider} from "@mui/material";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {updatePage} from "./store/actionCreators";
 import {PageState} from "./types";
@@ -14,49 +14,43 @@ import {FilterBy, OrderBy} from "./Models/Query";
 import CssBaseline from '@mui/material/CssBaseline';
 import {DarkTheme, LightTheme} from './ThemeConfig';
 import {Theme} from './Models/Theme';
+import classes from "./App.module.scss";
 
 const PokemonBackground = require("./Resources/pokemon_background.png");
+
 
 function App() {
     const dispatch = useDispatch();
 
-    const pokemons = useSelector(
-        (state: PageState) => state.pokemons,
-        shallowEqual,
-    )
-    const pageInfo = useSelector(
-        (state: PageState) => state.pageInfo,
-        shallowEqual,
-    )
+    const pokemons = useSelector((state: PageState) => state.pokemons, shallowEqual)
+    const pageInfo = useSelector((state: PageState) => state.pageInfo, shallowEqual)
+    const orderBy = useSelector((state: PageState) => state.orderBy, shallowEqual)
+    const filterBy = useSelector((state: PageState) => state.filterBy, shallowEqual)
+    const theme = useSelector((state: PageState) => state.theme, shallowEqual)
 
-    const orderBy = useSelector(
-        (state: PageState) => state.orderBy,
-        shallowEqual,
-    )
-
-    const filterBy = useSelector(
-        (state: PageState) => state.filterBy,
-        shallowEqual,
-    )
-    const theme = useSelector((state: PageState) => state.theme, shallowEqual,)
+    const [isLoading, setIsLoading] = useState(false);
 
     const updatePokemons = React.useCallback((pageInfo: PageInfo, orderBy: OrderBy, filterBy: FilterBy) => {
         const filterType = filterBy === FilterBy.ALL ? undefined : filterBy;
 
+        setIsLoading(true);
         PokedexAPI.getAll(pageInfo.page, pageInfo.size, orderBy, filterType).then((response) => {
-            dispatch(updatePage({
-                pokemons: response.items,
-                pageInfo: {page: response.page, size: response.size, total: response.total},
-                orderBy: orderBy,
-                filterBy: filterBy,
-            }));
+
+            if (response.items !== pokemons) {
+                dispatch(updatePage({
+                    pokemons: response.items,
+                    pageInfo: {page: response.page, size: response.size, total: response.total},
+                    orderBy: orderBy,
+                    filterBy: filterBy,
+                }));
+            }
+            setIsLoading(false);
         })
+
     }, [dispatch])
 
     useEffect(() => {
-        if (pokemons.length === 0) {
-            updatePokemons(pageInfo, orderBy, filterBy);
-        }
+        updatePokemons(pageInfo, orderBy, filterBy);
     }, [])
 
 
@@ -76,17 +70,29 @@ function App() {
         updatePokemons(pageInfo, orderBy, event.target.value as FilterBy);
     };
 
-    return (
-        <ThemeProvider theme={theme === Theme.LIGHT ? LightTheme : DarkTheme}>
-            <CssBaseline/>
-            <div style={{backgroundImage: `url(${PokemonBackground})`}}>
-                <Title/>
+    const renderBody = (): JSX.Element => {
+        if (isLoading) {
+            return <CircularProgress className={classes.spinner}/>
+        }
+
+        return (
+            <div>
                 <HeaderPageControl showSize={pageInfo.size}
                                    onChange={handlePageSizeChange}
                                    onSortChange={handleSortChange}
                                    onFilterChange={handleFilterChange}/>
                 <PokemonCards pokemons={pokemons}/>
                 <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>
+            </div>
+        )
+    }
+
+    return (
+        <ThemeProvider theme={theme === Theme.LIGHT ? LightTheme : DarkTheme}>
+            <CssBaseline/>
+            <div style={{backgroundImage: `url(${PokemonBackground})`}} className={classes.flexWrapper}>
+                <Title/>
+                {renderBody()}
             </div>
 
         </ThemeProvider>
