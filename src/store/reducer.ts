@@ -4,6 +4,7 @@ import {FilterBy, OrderBy} from "../Models/Query";
 import {Theme} from "../Models/Theme";
 import produce from "immer";
 
+
 const initialState: PageState = {
     pokemons: [],
     pageInfo: {

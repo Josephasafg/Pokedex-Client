@@ -5,12 +5,11 @@ import {
     CardContent,
     CardMedia,
     Collapse,
+    Divider,
     Grid,
-    Icon,
     IconButton,
     IconButtonProps,
-    List,
-    ListItem, Paper,
+    ListItem,
     Typography,
 } from '@mui/material';
 import classes from "./PokemonCard.module.scss";
@@ -25,7 +24,7 @@ import {PageState} from "../../types";
 import {CheckedPokeBallIcon} from "../PokeBallIcon/CheckedPokeBallIcon";
 import {UnCheckedPokeBallIcon} from "../PokeBallIcon/UnCheckedPokeBallIcon";
 import {TypeTag} from "../TypeTag/TypeTag";
-const LegendaryIcon = require("../../Resources/Icons/legendary-icon.ico");
+
 
 interface PokemonProps {
     pokemon: Pokemon
@@ -37,7 +36,7 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 
-const Item = styled(ListItem)(({ theme }) => ({
+const Item = styled(ListItem)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -58,15 +57,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const MyIcon = styled(Icon)(({  }) => ({
-    width: 20,
-    height: 20
-}));
-
-// const LegendaryIcon = styled(LegendarySVG)`
-//   width: 100%;
-//   height: 20px;
-// `;
 
 export const PokemonCard: React.FC<PokemonProps> = (
     {
@@ -80,17 +70,13 @@ export const PokemonCard: React.FC<PokemonProps> = (
         setExpanded(!expanded);
     };
 
-    const getTypes = (pokemon: Pokemon): string => {
-        return pokemon.type_two ? `${pokemon.type_one} | ${pokemon.type_two}` : pokemon.type_one;
-    }
-
     const onCapturedClick = React.useCallback(async () => {
         const response = await PokedexAPI.postCapture(pokemon.pokemon_id, !currentPokemon.is_captured);
 
         if (response.status === 200) {
             dispatch(updateIsCaptured(pokemon.pokemon_id, !currentPokemon.is_captured))
         }
-    }, [dispatch, pokemon])
+    }, [dispatch, pokemon.is_captured])
 
     return (
         <div className={classes.card}>
@@ -136,23 +122,33 @@ export const PokemonCard: React.FC<PokemonProps> = (
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
+                        <Grid container>
+                            <Grid item xs>
                                 <Item>HP: {pokemon.hit_points}</Item>
                                 <Item>Attack: {pokemon.attack}</Item>
                                 <Item>Sp.Attack: {pokemon.special_attack}</Item>
                                 <Item>Defense: {pokemon.defense}</Item>
                             </Grid>
 
-                            <Grid item xs={6}>
+                            <Grid item xs>
                                 <Item>Sp.Defense: {pokemon.special_defense}</Item>
                                 <Item>Speed: {pokemon.speed}</Item>
                                 <Item>Total: {pokemon.total}</Item>
                             </Grid>
+
+
                         </Grid>
-                        <Typography className={classes.stats}>
-                            Legendary: {pokemon.legendary ? "Yes" : "No"}
-                        </Typography>
+                        <Divider/>
+
+                        <Grid container>
+                            <Grid item xs>
+                                <Item>Legendary: {pokemon.legendary ? "Yes" : "No"}</Item>
+                            </Grid>
+                            <Grid item xs>
+                                <Item>Generation: {pokemon.generation}</Item>
+                            </Grid>
+
+                        </Grid>
                     </CardContent>
                 </Collapse>
             </Card>
