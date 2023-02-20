@@ -5,9 +5,12 @@ import {
     CardContent,
     CardMedia,
     Collapse,
+    Grid,
+    Icon,
     IconButton,
     IconButtonProps,
-    Paper,
+    List,
+    ListItem, Paper,
     Typography,
 } from '@mui/material';
 import classes from "./PokemonCard.module.scss";
@@ -21,7 +24,8 @@ import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {PageState} from "../../types";
 import {CheckedPokeBallIcon} from "../PokeBallIcon/CheckedPokeBallIcon";
 import {UnCheckedPokeBallIcon} from "../PokeBallIcon/UnCheckedPokeBallIcon";
-
+import {TypeTag} from "../TypeTag/TypeTag";
+const LegendaryIcon = require("../../Resources/Icons/legendary-icon.ico");
 
 interface PokemonProps {
     pokemon: Pokemon
@@ -31,6 +35,17 @@ interface PokemonProps {
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
+
+
+const Item = styled(ListItem)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    paddingTop: 0,
+}));
+
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const {expand, ...other} = props;
@@ -42,6 +57,16 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+
+const MyIcon = styled(Icon)(({  }) => ({
+    width: 20,
+    height: 20
+}));
+
+// const LegendaryIcon = styled(LegendarySVG)`
+//   width: 100%;
+//   height: 20px;
+// `;
 
 export const PokemonCard: React.FC<PokemonProps> = (
     {
@@ -74,26 +99,26 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         #{pokemon.number}
                     </Typography>
-
-                    <Typography variant="h5">
-                        {parseName(pokemon.name)}
-                    </Typography>
-
                     <div className={classes.cardImage}>
                         <CardMedia
                             component="img"
                             image={createIconURL(pokemon.icon_url, pokemon.name).toLowerCase()}
-                            sx={{objectFit: "contain", width: "45%"}}
+                            sx={{objectFit: "contain", width: "75%"}}
                         />
                     </div>
 
-                    <Typography sx={{mb: 1.5}} color="text.secondary">
-                        {getTypes(pokemon)}
+                    <Typography variant="h5" className={classes.name}>
+                        {parseName(pokemon.name)}
                     </Typography>
 
-                    <Typography variant="body2">
-                        Generation {pokemon.generation}
+                    <Typography sx={{mb: 1.5}} color="text.secondary">
+                        <TypeTag pokeType={pokemon.type_one}/>
+                        {pokemon.type_two && <TypeTag pokeType={pokemon.type_two}/>}
                     </Typography>
+
+                    {/*<Typography variant="body2">*/}
+                    {/*    Generation {pokemon.generation}*/}
+                    {/*</Typography>*/}
                 </CardContent>
                 <CardActions>
                     <IconButton aria-label="add to favorites"
@@ -111,11 +136,20 @@ export const PokemonCard: React.FC<PokemonProps> = (
                 </CardActions>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
-                        <Typography className={classes.stats}>
-                            HP: {pokemon.hit_points} Attack: {pokemon.attack} Defense: {pokemon.defense} Sp.
-                            Attack: {pokemon.special_attack} Sp.
-                            Defense: {pokemon.special_defense} Speed: {pokemon.speed} Total: {pokemon.total}
-                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Item>HP: {pokemon.hit_points}</Item>
+                                <Item>Attack: {pokemon.attack}</Item>
+                                <Item>Sp.Attack: {pokemon.special_attack}</Item>
+                                <Item>Defense: {pokemon.defense}</Item>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                                <Item>Sp.Defense: {pokemon.special_defense}</Item>
+                                <Item>Speed: {pokemon.speed}</Item>
+                                <Item>Total: {pokemon.total}</Item>
+                            </Grid>
+                        </Grid>
                         <Typography className={classes.stats}>
                             Legendary: {pokemon.legendary ? "Yes" : "No"}
                         </Typography>
