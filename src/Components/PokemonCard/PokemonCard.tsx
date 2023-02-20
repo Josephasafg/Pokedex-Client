@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {
     Card,
     CardActions,
@@ -11,7 +11,6 @@ import {
     Typography,
 } from '@mui/material';
 import classes from "./PokemonCard.module.scss";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Pokemon} from "../../Models/Pokemon";
 import {styled} from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -20,25 +19,18 @@ import {PokedexAPI} from "../../PokedexAPI/PokedexAPI";
 import {updateIsCaptured} from "../../store/actionCreators";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {PageState} from "../../types";
+import {CheckedPokeBallIcon} from "../PokeBallIcon/CheckedPokeBallIcon";
+import {UnCheckedPokeBallIcon} from "../PokeBallIcon/UnCheckedPokeBallIcon";
 
 
 interface PokemonProps {
     pokemon: Pokemon
-    isCaptured: boolean
 }
 
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
-
-const Item = styled(Paper)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const {expand, ...other} = props;
@@ -54,11 +46,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export const PokemonCard: React.FC<PokemonProps> = (
     {
         pokemon,
-        isCaptured
     }) => {
     const [expanded, setExpanded] = React.useState(false);
-    // const [captured, setCaptured] = useState(isCaptured);
-    const currentPokemon = useSelector((state: PageState) => state.pokemons.find(p => p.pokemon_id === pokemon.pokemon_id)) as Pokemon
+    const currentPokemon = useSelector((state: PageState) => state.pokemons.find(p => p.pokemon_id === pokemon.pokemon_id), shallowEqual) as Pokemon
     const dispatch = useDispatch();
 
     const handleExpandClick = () => {
@@ -70,12 +60,13 @@ export const PokemonCard: React.FC<PokemonProps> = (
     }
 
     const onCapturedClick = React.useCallback(async () => {
+        console.log("BEFORE UPDATE", currentPokemon.is_captured)
         const response = await PokedexAPI.postCapture(pokemon.pokemon_id, !currentPokemon.is_captured);
 
         if (response.status === 200) {
             dispatch(updateIsCaptured(pokemon.pokemon_id, !currentPokemon.is_captured))
         }
-    }, [dispatch, currentPokemon.is_captured])
+    }, [dispatch, pokemon])
 
     return (
         <div className={classes.card}>
@@ -107,9 +98,8 @@ export const PokemonCard: React.FC<PokemonProps> = (
                 </CardContent>
                 <CardActions>
                     <IconButton aria-label="add to favorites"
-                                onClick={onCapturedClick}
-                                color={currentPokemon.is_captured ? "primary" : "default"}>
-                        <FavoriteIcon/>
+                                onClick={onCapturedClick}>
+                        {currentPokemon.is_captured ? <CheckedPokeBallIcon/> : <UnCheckedPokeBallIcon/>}
                     </IconButton>
                     <ExpandMore
                         expand={expanded}

@@ -35,11 +35,9 @@ const toggleTheme = (state: PageState, action: ThemeAction): PageState => {
 
 function updateIsCaptured(state: PageState, action: UpdateIsCapturedAction) {
     const {pokemonId, isCaptured} = {...action}
-    // @ts-ignore
     const matchedIndex = Object.values(state.pokemons).findIndex(pokemon => pokemon.pokemon_id === pokemonId)
 
-    if (matchedIndex) {
-        // @ts-ignore
+    if (matchedIndex !== -1) {
         state.pokemons[matchedIndex].is_captured = isCaptured;
     }
 }
