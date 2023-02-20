@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    Card,
+    Card as MCard,
     CardActions,
     CardContent,
     CardMedia,
@@ -37,7 +37,6 @@ interface ExpandMoreProps extends IconButtonProps {
 
 
 const Item = styled(ListItem)(({theme}) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -45,6 +44,9 @@ const Item = styled(ListItem)(({theme}) => ({
     paddingTop: 0,
 }));
 
+const Card = styled(MCard)(({theme}) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#2A2A2A' : '#f9f9f9',
+}));
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
     const {expand, ...other} = props;
@@ -102,9 +104,6 @@ export const PokemonCard: React.FC<PokemonProps> = (
                         {pokemon.type_two && <TypeTag pokeType={pokemon.type_two}/>}
                     </Typography>
 
-                    {/*<Typography variant="body2">*/}
-                    {/*    Generation {pokemon.generation}*/}
-                    {/*</Typography>*/}
                 </CardContent>
                 <CardActions>
                     <IconButton aria-label="add to favorites"

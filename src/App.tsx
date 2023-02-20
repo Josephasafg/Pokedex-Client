@@ -15,6 +15,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {DarkTheme, LightTheme} from './ThemeConfig';
 import {Theme} from './Models/Theme';
 
+const PokemonBackground = require("./Resources/pokemon_background.png");
 
 function App() {
     const dispatch = useDispatch();
@@ -78,13 +79,16 @@ function App() {
     return (
         <ThemeProvider theme={theme === Theme.LIGHT ? LightTheme : DarkTheme}>
             <CssBaseline/>
-            <Title/>
-            <HeaderPageControl showSize={pageInfo.size}
-                               onChange={handlePageSizeChange}
-                               onSortChange={handleSortChange}
-                               onFilterChange={handleFilterChange}/>
-            <PokemonCards pokemons={pokemons}/>
-            <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>
+            <div style={{backgroundImage: `url(${PokemonBackground})`}}>
+                <Title/>
+                <HeaderPageControl showSize={pageInfo.size}
+                                   onChange={handlePageSizeChange}
+                                   onSortChange={handleSortChange}
+                                   onFilterChange={handleFilterChange}/>
+                <PokemonCards pokemons={pokemons}/>
+                <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>
+            </div>
+
         </ThemeProvider>
 
     );
