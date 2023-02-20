@@ -2,7 +2,6 @@ import React, {ChangeEvent, useEffect} from 'react';
 import './App.module.scss';
 import {PokemonCards} from "./Components/PokemonCards/PokemonCards";
 import {Title} from "./Components/Title/Title";
-import {Pokemon} from "./Models/Pokemon";
 import {PokedexAPI} from "./PokedexAPI/PokedexAPI";
 import {FooterPageControl} from "./Components/FooterPageControl/FooterPageControl";
 import {HeaderPageControl} from "./Components/HeaderPageControl/HeaderPageControl";
