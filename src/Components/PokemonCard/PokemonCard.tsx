@@ -60,7 +60,6 @@ export const PokemonCard: React.FC<PokemonProps> = (
     }
 
     const onCapturedClick = React.useCallback(async () => {
-        console.log("BEFORE UPDATE", currentPokemon.is_captured)
         const response = await PokedexAPI.postCapture(pokemon.pokemon_id, !currentPokemon.is_captured);
 
         if (response.status === 200) {
