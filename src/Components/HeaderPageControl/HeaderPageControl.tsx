@@ -47,13 +47,20 @@ export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
 
     return (
         <div className={classes.headerContainer}>
-            <Toggle label={"Theme"} onChange={handleOnThemeToggle} isChecked={theme === Theme.DARK}/>
-            <FilterControl value={orderBy} onChange={onSortChange} label={"Sort"}
-                           options={[OrderBy.ASC, OrderBy.DESC]}/>
+            <div className={classes.leftSide}>
+                <Toggle label={"Theme"} onChange={handleOnThemeToggle} isChecked={theme === Theme.DARK}/>
+            </div>
+            <div className={classes.rightSide}>
+                <FilterControl value={orderBy}
+                               onChange={onSortChange}
+                               label={"Sort"}
+                               options={[OrderBy.ASC, OrderBy.DESC]}/>
 
-            <FilterControl value={filterBy} onChange={onFilterChange} label={"Type"}
-                           options={Object.values(FilterBy)}/>
-            <PageSize showSize={showSize} onChange={onChange} title={"Size"}/>
+                <FilterControl value={filterBy} onChange={onFilterChange} label={"Filter"}
+                               options={Object.values(FilterBy)}/>
+                <PageSize showSize={showSize} onChange={onChange} title={"Size"}/>
+            </div>
+
         </div>
     )
 }

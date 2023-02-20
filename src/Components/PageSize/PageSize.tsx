@@ -21,8 +21,8 @@ export const PageSize: React.FC<PageSizeProps> = (
     return (
         <div className={classes.container}>
             <Typography>Show</Typography>
-            <FormControl fullWidth={false}>
-                <InputLabel id="demo-simple-select-label">{title}</InputLabel>
+            <FormControl fullWidth={false} size={"small"}>
+                <InputLabel id="demo-simple-select-label" >{title}</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
