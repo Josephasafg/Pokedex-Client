@@ -49,7 +49,7 @@ function App() {
                 }));
             }
             setIsLoading(false);
-        })
+        }).catch(error => console.error("Failed to fetch data from server - ", error));
 
     }, [dispatch])
 

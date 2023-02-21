@@ -12,10 +12,6 @@ export class PokedexAPI {
 
         const response = await API.get(PokedexAPI.GET_ALL_URL, {params: params});
 
-        if (response.status !== 200) {
-
-        }
-
         return response.data;
     }
 
