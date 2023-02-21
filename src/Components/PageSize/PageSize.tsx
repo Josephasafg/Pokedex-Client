@@ -3,6 +3,7 @@ import Select from '@mui/material/Select';
 
 import React from "react";
 import styled from "styled-components";
+import configData from "../../ProjectConfig.json";
 
 const PageSizeContainer = styled.div`
   display: flex;
@@ -14,7 +15,6 @@ const PageSizeContainer = styled.div`
   gap: 10px;
 `;
 
-const PAGE_SIZE_OPTIONS = [5, 10, 20];
 
 interface PageSizeProps {
     title: string
@@ -40,7 +40,7 @@ export const PageSize: React.FC<PageSizeProps> = (
                     label={showSize}
                     onChange={onChange}
                 >
-                    {PAGE_SIZE_OPTIONS.map((size: number, index: number) => {
+                    {configData.PAGE_SIZE_OPTIONS.map((size: number, index: number) => {
                         return <MenuItem key={index} value={size}>{size}</MenuItem>
                     })}
                 </Select>
