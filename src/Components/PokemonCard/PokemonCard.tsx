@@ -71,6 +71,10 @@ const CardWrapper = styled.div`
   margin: 15px;
 `;
 
+const BottomCardWrapper = styled.div`
+  justify-content: flex-end;
+`;
+
 
 export const PokemonCard: React.FC<PokemonProps> = (
     {
@@ -117,19 +121,21 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     </Typography>
 
                 </CardContent>
-                <CardActions>
-                    <IconButton aria-label="mark as captured"
-                                onClick={onCapturedClick}>
-                        {currentPokemon.is_captured ? CheckedPokeBallIcon : UnCheckedPokeBallIcon}
-                    </IconButton>
-                    <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more">
-                        <ExpandMoreIcon/>
-                    </ExpandMore>
-                </CardActions>
+                <BottomCardWrapper>
+                    <CardActions>
+                        <IconButton aria-label="mark as captured"
+                                    onClick={onCapturedClick}>
+                            {currentPokemon.is_captured ? CheckedPokeBallIcon : UnCheckedPokeBallIcon}
+                        </IconButton>
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more">
+                            <ExpandMoreIcon/>
+                        </ExpandMore>
+                    </CardActions>
+                </BottomCardWrapper>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Grid container>
