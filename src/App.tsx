@@ -34,7 +34,6 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
 
 
-
     const updatePokemons = React.useCallback((pageInfo: PageInfo, orderBy: OrderBy, filterBy: FilterBy, prevPokemons: Pokemon[]) => {
         const filterType = filterBy === FilterBy.ALL ? undefined : filterBy;
 
@@ -55,19 +54,19 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        if (pokemons.length  === 0) {
+        if (pokemons.length === 0) {
             updatePokemons(pageInfo, orderBy, filterBy, pokemons);
         }
     }, [])
 
 
     const handlePageChange = (event: ChangeEvent<unknown>, value: number): void => {
-        updatePokemons({...pageInfo, page: value}, orderBy, filterBy, pokemons);
+        updatePokemons({...pageInfo, page: value}, orderBy, filterBy, []);
     }
 
     // Use when we have regular pagination
     const handlePageSizeChange = (event: SelectChangeEvent): void => {
-        updatePokemons({...pageInfo, size: +event.target.value, page: 1}, orderBy, filterBy, pokemons);
+        updatePokemons({...pageInfo, size: +event.target.value, page: 1}, orderBy, filterBy, []);
     };
 
     const handleSortChange = (event: SelectChangeEvent): void => {
@@ -77,6 +76,30 @@ function App() {
     const handleFilterChange = (event: SelectChangeEvent): void => {
         updatePokemons({...pageInfo, page: 1}, orderBy, event.target.value as FilterBy, []);
     };
+
+    const renderPagination = (isPagination: boolean) => {
+        if (isPagination) {
+            return (
+                <PokemonCards pokemons={pokemons}/>
+            )
+        }
+
+        return (
+            <InfiniteScroll
+                dataLength={pageInfo.size * pageInfo.page}
+                next={() => updatePokemons({...pageInfo, page: pageInfo.page + 1}, orderBy, filterBy, pokemons)}
+                hasMore={pageInfo.size * pageInfo.page <= pageInfo.total}
+                loader={<></>}
+                endMessage={
+                    <p style={{textAlign: "center"}}>
+                        {PsyduckIcon}No more Pokemon for now{SnorlaxIcon}
+                    </p>
+                }
+            >
+                <PokemonCards pokemons={pokemons}/>
+            </InfiniteScroll>
+        )
+    }
 
     const renderBody = (): JSX.Element => {
         // We use this when we don't use infinite scrolling for page spinner
@@ -91,19 +114,7 @@ function App() {
                                    onSortChange={handleSortChange}
                                    onFilterChange={handleFilterChange}/>
 
-                <InfiniteScroll
-                    dataLength={pageInfo.size * pageInfo.page}
-                    next={() => updatePokemons({...pageInfo, page: pageInfo.page + 1}, orderBy, filterBy, pokemons)}
-                    hasMore={pageInfo.size * pageInfo.page <= pageInfo.total}
-                    loader={<></>}
-                    endMessage={
-                        <p style={{textAlign: "center"}}>
-                            {PsyduckIcon}No more Pokemon for now{SnorlaxIcon}
-                        </p>
-                    }
-                >
-                    <PokemonCards pokemons={pokemons}/>
-                </InfiniteScroll>
+                {renderPagination(configData.PAGINATION)}
                 {configData.PAGINATION && <FooterPageControl pageInfo={pageInfo} onChange={handlePageChange}/>}
             </div>
         )
