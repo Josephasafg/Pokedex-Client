@@ -12,18 +12,16 @@ export const createIconURL = (baseURL: string, name: string): string => {
 export const parseName = (pokemonName: string): string => {
     let newNameArr: string[] = [];
 
-    pokemonName.split(/[\s-]+/).forEach(word => {
+    pokemonName.split(/[\s-\\.]+/).forEach(word => {
         if (word.includes(FEMALE_CHAR)) {
             newNameArr = newNameArr.concat(word.replace(FEMALE_CHAR, " F").split(" "));
         } else if (word.includes(MALE_CHAR)) {
             newNameArr = newNameArr.concat(word.replace(MALE_CHAR, " M").split(" "));
-        } else if (word.includes(".")) {
-            newNameArr.push(word.replace(".", "").trim());
         } else if (newNameArr.includes(word)) {
             return;
         } else if (word.endsWith("Mega")) {
             newNameArr = newNameArr.concat(word.split(/(?=[A-Z])/));
-        } else if (word.includes(FORME) || word.includes("Mode") || word.includes(".") || word === "Cloak" || word.includes("Size")) {
+        } else if (word.includes(FORME) || word.includes("Mode") || word === "Cloak" || word.includes("Size")) {
             return;
         } else if (word.includes("%")) {
             let currentName = word.replace("%", "");
@@ -37,5 +35,5 @@ export const parseName = (pokemonName: string): string => {
         }
     })
 
-    return newNameArr.join(" ");
+    return newNameArr.join(" ").trim();
 }
