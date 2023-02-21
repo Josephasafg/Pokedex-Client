@@ -10,7 +10,7 @@ interface PageControlProps {
 
 
 const PaginationWrapper = styled.div`
-    margin: 20px;
+  margin: 20px;
 `
 
 export const FooterPageControl: React.FC<PageControlProps> = (
