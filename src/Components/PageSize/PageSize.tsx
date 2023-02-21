@@ -2,7 +2,17 @@ import {FormControl, InputLabel, MenuItem, SelectChangeEvent, Typography} from "
 import Select from '@mui/material/Select';
 
 import React from "react";
-import classes from "./PageSize.module.scss";
+import styled from "styled-components";
+
+const PageSizeContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  align-content: space-between;
+  margin-right: 100px;
+  gap: 10px;
+`;
 
 const PAGE_SIZE_OPTIONS = [5, 10, 20];
 
@@ -19,13 +29,13 @@ export const PageSize: React.FC<PageSizeProps> = (
         onChange,
     }) => {
     return (
-        <div className={classes.container}>
+        <PageSizeContainer>
             <Typography>Show</Typography>
             <FormControl fullWidth={false} size={"small"}>
-                <InputLabel id="demo-simple-select-label" >{title}</InputLabel>
+                <InputLabel id="pokedex-pages-id">{title}</InputLabel>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="pokedex-pages-id-label"
+                    id="pokedex-pages-id-select"
                     value={showSize.toString()}
                     label={showSize}
                     onChange={onChange}
@@ -36,6 +46,6 @@ export const PageSize: React.FC<PageSizeProps> = (
                 </Select>
             </FormControl>
             <Typography>Per Page</Typography>
-        </div>
+        </PageSizeContainer>
     )
 }
