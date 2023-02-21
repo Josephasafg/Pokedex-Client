@@ -15,7 +15,7 @@ export const PokemonCards: React.FC<PokemonCardsProp> = (
 
     return (
         <div className={classes.cardsContainer}>
-            {pokemons.map((pokemon: Pokemon, index: number) => {
+            {pokemons.map((pokemon: Pokemon) => {
                 return <PokemonCard key={pokemon.pokemon_id} pokemon={pokemon}/>
             })}
 
