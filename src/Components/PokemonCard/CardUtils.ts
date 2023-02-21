@@ -1,61 +1,41 @@
 const FEMALE_CHAR = "♀";
 const MALE_CHAR = "♂";
-const SPACE = " ";
 const FORME = "Forme";
 
 
-export const createIconURL = (baseURL: string, name: string) => {
-    let newName = name;
+export const createIconURL = (baseURL: string, name: string): string => {
+    const parsedName = parseName(name);
 
-    if (name.includes(FEMALE_CHAR)) {
-        newName = `${newName.replace(FEMALE_CHAR, "")} F`;
-    }
-
-    if (newName.includes(MALE_CHAR)) {
-        newName = `${newName.replace(MALE_CHAR, "")} M`;
-    }
-
-    if (newName.includes(".")) {
-        newName = newName.replace(".", "");
-    }
-
-    let currentName = parseMegaPokemon(newName);
-
-    if (currentName.includes(FORME)) {
-        currentName = currentName.replace(FORME, "")
-
-        if (currentName.includes("%")) {
-            // @ts-ignore
-            currentName = currentName.replace("%", "");
-        }
-    }
-
-    if (currentName.includes("Size")) {
-        currentName = currentName.replace("Size", "");
-    }
-
-    return `${baseURL}/${currentName.replace("'", '').replace("-", "").replace(/ /g, "").split(/(?=[A-Z])/).join("-")}.png`
-}
-
-export const parseMegaPokemon = (pokemonName: string): string => {
-    if (pokemonName.includes(" ") && pokemonName.includes("Mega")) {
-        const names = pokemonName.split(" ");
-
-        const newName = names[0].split(/(?=[A-Z])/);
-
-        if (names.length > 2) {
-            return newName.join(" ") + ` ${names[names.length - 1]}`;
-        }
-
-        return newName.join(' ');
-    }
-
-    return pokemonName;
+    return `${baseURL}/${parsedName.replace(/ /g, "-")}.png`
 }
 
 export const parseName = (pokemonName: string): string => {
-    const parsedMegaName = parseMegaPokemon(pokemonName);
+    let newNameArr: string[] = [];
 
+    pokemonName.split(/[\s-]+/).forEach(word => {
+        if (word.includes(FEMALE_CHAR)) {
+            newNameArr = newNameArr.concat(word.replace(FEMALE_CHAR, " F").split(" "));
+        } else if (word.includes(MALE_CHAR)) {
+            newNameArr = newNameArr.concat(word.replace(MALE_CHAR, " M").split(" "));
+        } else if (word.includes(".")) {
+            newNameArr.push(word.replace(".", "").trim());
+        } else if (newNameArr.includes(word)) {
+            return;
+        } else if (word.endsWith("Mega")) {
+            newNameArr = newNameArr.concat(word.split(/(?=[A-Z])/));
+        } else if (word.includes(FORME) || word.includes("Mode") || word.includes(".") || word === "Cloak" || word.includes("Size")) {
+            return;
+        } else if (word.includes("%")) {
+            let currentName = word.replace("%", "");
+            newNameArr = newNameArr.concat(currentName.split(/([0-9]+)/).filter(Boolean))
+        } else if (word.includes("'")) {
+            newNameArr.push(word.replace("'", ""));
+        } else if (word.split(/(?=[A-Z])/).length > 1) {
+            newNameArr = newNameArr.concat(word.split(/(?=[A-Z])/))
+        } else {
+            newNameArr.push(word);
+        }
+    })
 
-    return parsedMegaName;
+    return newNameArr.join(" ");
 }

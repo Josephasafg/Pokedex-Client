@@ -98,7 +98,7 @@ export const PokemonCard: React.FC<PokemonProps> = (
                         {parseName(pokemon.name)}
                     </Typography>
 
-                    <Typography sx={{mb: 1.5}} color="text.secondary">
+                    <Typography sx={{mb: 1.4}} color="text.secondary">
                         <TypeTag pokeType={pokemon.type_one}/>
                         {pokemon.type_two && <TypeTag pokeType={pokemon.type_two}/>}
                     </Typography>
