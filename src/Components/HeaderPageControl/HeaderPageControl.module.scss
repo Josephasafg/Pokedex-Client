@@ -1,6 +1,6 @@
 .headerContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -8,8 +8,4 @@
   display: flex;
   gap: 10px;
   flex-direction: row;
-}
-
-.leftSide {
-  margin-left: 160px;
 }

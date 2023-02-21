@@ -14,7 +14,7 @@ import {toggleTheme} from "../../store/actionCreators";
 
 interface HeaderPageControlProps {
     showSize: number
-    onChange: (event: SelectChangeEvent) => void
+    onPageChange?: (event: SelectChangeEvent) => void
     onSortChange: (event: SelectChangeEvent) => void
     onFilterChange: (event: SelectChangeEvent) => void
 }
@@ -23,7 +23,7 @@ interface HeaderPageControlProps {
 export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
     {
         showSize,
-        onChange,
+        onPageChange,
         onSortChange,
         onFilterChange
     }) => {
@@ -47,9 +47,7 @@ export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
 
     return (
         <div className={classes.headerContainer}>
-            <div className={classes.leftSide}>
-                <Toggle label={"Theme"} onChange={handleOnThemeToggle} isChecked={theme === Theme.DARK}/>
-            </div>
+            <Toggle label={"Theme"} onChange={handleOnThemeToggle} isChecked={theme === Theme.DARK}/>
             <div className={classes.rightSide}>
                 <FilterControl value={orderBy}
                                onChange={onSortChange}
@@ -58,7 +56,7 @@ export const HeaderPageControl: React.FC<HeaderPageControlProps> = (
 
                 <FilterControl value={filterBy} onChange={onFilterChange} label={"Filter"}
                                options={Object.values(FilterBy)}/>
-                <PageSize showSize={showSize} onChange={onChange} title={"Size"}/>
+                {onPageChange && <PageSize showSize={showSize} onChange={onPageChange} title={"Size"}/>}
             </div>
 
         </div>
