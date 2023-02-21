@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import classes from "./TypeTag.module.scss";
 
 const DarkText = "#212121";
 const LightText = "#fff";
@@ -49,7 +48,7 @@ const getBackgroundColor = (colorType: string) => {
 const Tag = styled.span<{
     pokeType: string;
 }>`
-  font-family: "Flexo-Medium",arial,sans-serif;
+  font-family: "Flexo-Medium", arial, sans-serif;
   border-radius: 3px;
   line-height: 18px;
   max-width: 110px;
@@ -59,8 +58,8 @@ const Tag = styled.span<{
   text-transform: none;
   font-size: 11px;
   text-align: center;
-  
-  ${({ pokeType }) => getBackgroundColor(pokeType)}
+
+  ${({pokeType}) => getBackgroundColor(pokeType)}
 `;
 
 
