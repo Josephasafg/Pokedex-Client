@@ -105,7 +105,7 @@ export const PokemonCard: React.FC<PokemonProps> = (
 
                 </CardContent>
                 <CardActions>
-                    <IconButton aria-label="add to favorites"
+                    <IconButton aria-label="mark as captured"
                                 onClick={onCapturedClick}>
                         {currentPokemon.is_captured ? CheckedPokeBallIcon : UnCheckedPokeBallIcon}
                     </IconButton>
