@@ -93,6 +93,8 @@ export const PokemonCard: React.FC<PokemonProps> = (
 
         if (response.status === 200) {
             dispatch(updateIsCaptured(pokemon.pokemon_id, !currentPokemon.is_captured))
+        } else {
+            console.error(`Failed to update pokemon [name=${pokemon.name}] [status=${response.status}]`);
         }
     }, [dispatch, pokemon.is_captured])
 

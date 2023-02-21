@@ -54,8 +54,8 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        if (pokemons.length === 0) {
-            updatePokemons(pageInfo, orderBy, filterBy, pokemons);
+        if (pokemons.length === 0 || pageInfo.page === 1) {
+            updatePokemons(pageInfo, orderBy, filterBy, []);
         }
     }, [])
 
