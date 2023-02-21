@@ -12,9 +12,8 @@ import {
     ListItem,
     Typography,
 } from '@mui/material';
-import classes from "./PokemonCard.module.scss";
 import {Pokemon} from "../../Models/Pokemon";
-import {styled} from '@mui/material/styles';
+import {styled as mstyled} from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {createIconURL, parseName} from "./CardUtils";
 import {PokedexAPI} from "../../PokedexAPI/PokedexAPI";
@@ -23,6 +22,7 @@ import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {PageState} from "../../types";
 import {CheckedPokeBallIcon, UnCheckedPokeBallIcon} from "../PokeBallIcon/Icons";
 import {TypeTag} from "../TypeTag/TypeTag";
+import styled from "styled-components";
 
 
 interface PokemonProps {
@@ -35,7 +35,7 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 
-const Item = styled(ListItem)(({theme}) => ({
+const Item = mstyled(ListItem)(({theme}) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -43,11 +43,11 @@ const Item = styled(ListItem)(({theme}) => ({
     paddingTop: 0,
 }));
 
-const Card = styled(MCard)(({theme}) => ({
+const Card = mstyled(MCard)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#2A2A2A' : '#f9f9f9',
 }));
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
+const ExpandMore = mstyled((props: ExpandMoreProps) => {
     const {expand, ...other} = props;
     return <IconButton {...other} />;
 })(({theme, expand}) => ({
@@ -57,6 +57,19 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+
+const CardMediaWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+`;
+
+const CardWrapper = styled.div`
+  width: 275px;
+  border-radius: 4px;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  margin: 15px;
+`;
 
 
 export const PokemonCard: React.FC<PokemonProps> = (
@@ -80,21 +93,21 @@ export const PokemonCard: React.FC<PokemonProps> = (
     }, [dispatch, pokemon.is_captured])
 
     return (
-        <div className={classes.card}>
+        <CardWrapper>
             <Card>
                 <CardContent>
                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         #{pokemon.number}
                     </Typography>
-                    <div className={classes.cardImage}>
+                    <CardMediaWrapper>
                         <CardMedia
                             component="img"
                             image={createIconURL(pokemon.icon_url, pokemon.name).toLowerCase()}
                             sx={{objectFit: "contain", width: "75%"}}
                         />
-                    </div>
+                    </CardMediaWrapper>
 
-                    <Typography variant="h5" className={classes.name}>
+                    <Typography variant="h5" style={{margin: "10px 0"}}>
                         {parseName(pokemon.name)}
                     </Typography>
 
@@ -149,6 +162,6 @@ export const PokemonCard: React.FC<PokemonProps> = (
                     </CardContent>
                 </Collapse>
             </Card>
-        </div>
+        </CardWrapper>
     )
 }
