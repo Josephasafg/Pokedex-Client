@@ -18,6 +18,7 @@ import classes from "./App.module.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {Pokemon} from "./Models/Pokemon";
 import configData from "./ProjectConfig.json";
+import {PsyduckIcon, SnorlaxIcon} from "./Components/PokeBallIcon/Icons";
 
 const PokemonBackground = require("./Resources/pokemon_background.png");
 
@@ -97,7 +98,7 @@ function App() {
                     loader={<></>}
                     endMessage={
                         <p style={{textAlign: "center"}}>
-                            <b>Yay! You have seen it all</b>
+                            {PsyduckIcon}No more Pokemon for now{SnorlaxIcon}
                         </p>
                     }
                 >

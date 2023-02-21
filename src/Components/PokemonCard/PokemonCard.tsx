@@ -21,8 +21,7 @@ import {PokedexAPI} from "../../PokedexAPI/PokedexAPI";
 import {updateIsCaptured} from "../../store/actionCreators";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {PageState} from "../../types";
-import {CheckedPokeBallIcon} from "../PokeBallIcon/CheckedPokeBallIcon";
-import {UnCheckedPokeBallIcon} from "../PokeBallIcon/UnCheckedPokeBallIcon";
+import {CheckedPokeBallIcon, UnCheckedPokeBallIcon} from "../PokeBallIcon/Icons";
 import {TypeTag} from "../TypeTag/TypeTag";
 
 
@@ -108,7 +107,7 @@ export const PokemonCard: React.FC<PokemonProps> = (
                 <CardActions>
                     <IconButton aria-label="add to favorites"
                                 onClick={onCapturedClick}>
-                        {currentPokemon.is_captured ? <CheckedPokeBallIcon/> : <UnCheckedPokeBallIcon/>}
+                        {currentPokemon.is_captured ? CheckedPokeBallIcon : UnCheckedPokeBallIcon}
                     </IconButton>
                     <ExpandMore
                         expand={expanded}
