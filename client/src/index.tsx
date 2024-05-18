@@ -24,12 +24,6 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, projectReducer);
 
 
-// const store: Store<PageState, PokedexActions> & {
-//     dispatch: DispatchType
-// } = configureStore({
-//     reducer: persistedReducer, middleware: [thunk], devTools: process.env.NODE_ENV !== 'production',
-// })
-
 const store = configureStore({
     reducer: persistedReducer,
     middleware: () => new Tuple(thunk, logger),
