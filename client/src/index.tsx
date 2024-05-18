@@ -7,11 +7,12 @@ import {Store} from "redux"
 import projectReducer from "./store/reducer"
 import {DispatchType, PageAction, PageState, PokedexActions} from "./types";
 import {Provider} from "react-redux";
-import {configureStore} from "@reduxjs/toolkit";
+import {configureStore, Tuple} from "@reduxjs/toolkit";
 import {persistReducer, persistStore} from 'redux-persist'
 import storage from "redux-persist/lib/storage";
 import {PersistGate} from 'redux-persist/integration/react'
-import thunk from 'redux-thunk';
+import {thunk} from 'redux-thunk';
+import logger from 'redux-logger';
 
 
 const persistConfig = {
@@ -23,11 +24,18 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, projectReducer);
 
 
-const store: Store<PageState, PokedexActions> & {
-    dispatch: DispatchType
-} = configureStore({
-    reducer: persistedReducer, middleware: [thunk], devTools: process.env.NODE_ENV !== 'production',
-})
+// const store: Store<PageState, PokedexActions> & {
+//     dispatch: DispatchType
+// } = configureStore({
+//     reducer: persistedReducer, middleware: [thunk], devTools: process.env.NODE_ENV !== 'production',
+// })
+
+const store = configureStore({
+    reducer: persistedReducer,
+    middleware: () => new Tuple(thunk, logger),
+    devTools: process.env.NODE_ENV !== 'production',
+});
+
 let persistor = persistStore(store)
 
 const root = ReactDOM.createRoot(
