@@ -1,0 +1,1 @@
+from .pokedex_router import create_pokedex_router

@@ -2,7 +2,8 @@ import * as actionTypes from "./actionTypes";
 import {PageAction, PageState, PokedexActions, ThemeAction, UpdateIsCapturedAction} from "../types";
 import {FilterBy, OrderBy} from "../Models/Query";
 import {Theme} from "../Models/Theme";
-import produce from "immer";
+import { produce } from 'immer';
+
 
 
 const initialState: PageState = {
